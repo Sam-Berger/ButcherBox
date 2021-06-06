@@ -119,7 +119,7 @@ function calculateUnitPrice(priceString, amountString) {
         console.log(weight)
     }
     console.log(price)
-    let pricePerUnit = price / weight
+    let pricePerUnit = (price / weight).toFixed(2)
     console.log("price per unit " + pricePerUnit)
         //console.log(weightType)
     if (weightType == "lb") {
