@@ -48,17 +48,22 @@ function calculateUnitPrice(priceString, amountString) {
     }
 
     //some amount boxes have descriptions like "Each unit of Ground Beef (85/15) contains 2 x 1 lb packs" so we need to get around just choosing the first number for index
+    console.log("before ' x ':" + amountString)
     if (amountString.includes(" x ")) {
         let index = amountString.indexOf(" x ")
         amountString = amountString.slice(index - 5, index + 9)
     }
+    console.log("after ' x ':" + amountString)
+    console.log("before include lb:" + amountString)
 
     if (amountString.includes("lb")) {
         let index = amountString.indexOf("lb")
         console.log("index: " + index)
-        amountString = amountString.slice(index - 5, index + 4)
-        console.log(amountString)
+        amountString = amountString.slice(index - 6, index + 4)
     }
+
+    console.log("after include lb:" + amountString)
+
 
     // if (amountString.includes("lb")) {
     //     let index = amountString.indexOf("lb")
@@ -71,7 +76,7 @@ function calculateUnitPrice(priceString, amountString) {
     if (amountString.includes("oz")) {
         let index = amountString.indexOf("oz")
         console.log("index: " + index)
-        amountString = amountString.slice(index - 5, index + 4)
+        amountString = amountString.slice(index - 10, index + 4)
         console.log(amountString)
     }
 
