@@ -56,10 +56,44 @@ function calculateUnitPrice(priceString, amountString) {
     console.log("after ' x ':" + amountString)
     console.log("before include lb:" + amountString)
 
+    //TODO: what to do if "lb" is mentioned twice? Use the bigger of the 2
+
+    //original
+    // if (amountString.includes("lb")) {
+    //     let index = amountString.indexOf("lb")
+    //     console.log("index: " + index)
+    //     amountString = amountString.slice(index - 6, index + 4)
+    // }
+
+    //modified
+    let weight
+
     if (amountString.includes("lb")) {
         let index = amountString.indexOf("lb")
-        console.log("index: " + index)
-        amountString = amountString.slice(index - 6, index + 4)
+        let lastIndex = amountString.lastIndexOf("lb")
+        if (index == lastIndex) {
+            console.log("index: " + index)
+            amountString = amountString.slice(index - 6, index + 4)
+        } else {
+            let amountStringFirst = amountString.slice(index - 6, index + 4)
+            let amountStringLast = amountString.slice(lastIndex - 6, lastIndex + 4)
+            sliceAndTight(amountStringFirst)
+            sliceAndTight(amountStringLast)
+            console.log("First Amt String:" + amountStringFirst)
+            console.log("Lsdy Amt String:" + amountStringLast)
+            amountStringFirst = amountStringFirst.slice(0, findIndexUnit(amountString, /l|o/))
+            amountStringLast = amountStringLast.slice(0, findIndexUnit(amountString, /l|o/))
+            if (amountStringFirst > amountStringLast) {
+                weight = amountStringFirst
+                    // amountString = amountStringFirst 
+            } else {
+                weight = amountStringLast
+                    // amountString = amountStringLast
+            }
+
+
+
+        }
     }
 
     console.log("after include lb:" + amountString)
@@ -84,12 +118,17 @@ function calculateUnitPrice(priceString, amountString) {
         amountString = "0.5lbs"
     }
 
-    let amountIndex = findindex(amountString)
-    console.log("amountIndex:" + amountIndex)
-    amountString = amountString.slice(amountIndex).replace(/\s+/g, '')
-    console.log("Amount String:" + amountString)
-        //   console.log(findIndexUnit(amountString, /l|o/))
-        //     console.log(amountString[findIndexUnit(amountString, /l|o/)]) 
+
+    function sliceAndTight(str) {
+        let amountIndex = findindex(str)
+            // console.log("amountIndex:" + amountIndex)
+        amountString = str.slice(amountIndex).replace(/\s+/g, '')
+        console.log("Amount String:" + amountString)
+    }
+
+    sliceAndTight(amountString);
+    //   console.log(findIndexUnit(amountString, /l|o/))
+    //     console.log(amountString[findIndexUnit(amountString, /l|o/)]) 
     let weightType = ""
     if (amountString[findIndexUnit(amountString, /l|o/)] == "l") {
         weightType = "lb"
@@ -105,7 +144,6 @@ function calculateUnitPrice(priceString, amountString) {
     let multiplySymbolIndex
     let howMany
     let size
-    let weight
     if (amountString.includes("x")) {
         multiplySymbolIndex = findIndexUnit(amountString, /x/)
         howMany = Number(amountString.slice(0, multiplySymbolIndex))
@@ -119,13 +157,13 @@ function calculateUnitPrice(priceString, amountString) {
         console.log(weight)
     }
     console.log(price)
-    let pricePerUnit = (price / weight).toFixed(2)
+    let pricePerUnit = (price / weight)
     console.log("price per unit " + pricePerUnit)
         //console.log(weightType)
     if (weightType == "lb") {
-        return "$" + pricePerUnit + "/lb"
+        return "$" + (pricePerUnit).toFixed(2) + "/lb"
     }
     if (weightType == "oz") {
-        return "$" + (pricePerUnit * 16) + "/lb"
+        return "$" + (pricePerUnit * 16).toFixed(2) + "/lb"
     }
 }
