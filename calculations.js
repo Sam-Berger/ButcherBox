@@ -151,19 +151,19 @@ function calculateUnitPrice(priceString, amountString) {
         console.log(howMany)
         console.log(size)
         weight = howMany * size;
-        console.log(weight)
+        console.log("Includes 'x' weight: " + weight)
     } else {
         weight = Number(amountString)
-        console.log(weight)
+        console.log("Includes 'x' weight: " + weight)
     }
     console.log(price)
     let pricePerUnit = (price / weight)
     console.log("price per unit " + pricePerUnit)
         //console.log(weightType)
     if (weightType == "lb") {
-        return "$" + (pricePerUnit).toFixed(2) + "/lb"
+        return pricePerUnit.toFixed(2)
     }
     if (weightType == "oz") {
-        return "$" + (pricePerUnit * 16).toFixed(2) + "/lb"
+        return (pricePerUnit * 16).toFixed(2)
     }
 }
