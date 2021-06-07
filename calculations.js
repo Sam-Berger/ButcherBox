@@ -1,11 +1,5 @@
 function calculateUnitPrice(priceString, amountString) {
     console.log("Start of Calculation")
-    let index = priceString.indexOf("$")
-    let price = Number(priceString.slice(index + 1))
-
-    /*     console.log("index:" + index);
-        console.log("priceString:" + priceString);
-        console.log("price:" + price) */
 
     function findindex(str) {
         console.log(str)
@@ -156,6 +150,9 @@ function calculateUnitPrice(priceString, amountString) {
         weight = Number(amountString)
         console.log("Includes 'x' weight: " + weight)
     }
+
+    let price = calculatePrice(priceString)
+
     console.log(price)
     let pricePerUnit = (price / weight)
     console.log("price per unit " + pricePerUnit)
@@ -168,6 +165,10 @@ function calculateUnitPrice(priceString, amountString) {
     }
 }
 
-
+function calculatePrice(priceString) {
+    let index = priceString.indexOf("$")
+    let price = Number(priceString.slice(index + 1))
+    return price
+}
 
 //
