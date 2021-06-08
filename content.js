@@ -9,51 +9,26 @@ function gotMessage(message, sender, sendResponse) {
         elts[i].style['background-color'] = '#F0C';
 
     }
-    //Main Page: https://www.butcherbox.com/member/
-    //Recurring Add Ons 
 
-    // let addOns = document.getElementsByClassName("css-orvfwm");
-    // for (let i = 0; i < addOns.length; i++) {
+    //AddOns
+    addPricePerUnit("css-orvfwm", "css-13rzl1b", "css-1jiogkd", "css-1jiogkd")
 
-    //     let amountString = addOns[i].getElementsByTagName("h5")[0].textContent;
-    //     let priceString = addOns[i].getElementsByClassName("css-1jiogkd")[0].textContent;
+    //Deals (Most)
+    addPricePerUnit("css-1swbghd", "css-51ry97", "css-t6djce", "css-t6djce")
 
-    //     //add element and code
-    //     let newElement = document.createElement("h4");
-    //     newElement.innerHTML = calculateUnitPrice(priceString, amountString);
-    //     addOns[i].getElementsByTagName("h4")[0].appendChild(newElement);
-    // }
-
-
-    //Next Box Only Exclusive Member Deals
-    // let nextBoxDeals = document.getElementsByClassName("css-1swbghd")
-    // for (let i = 0; i < nextBoxDeals.length; i++) {
-    //     let priceString = nextBoxDeals[i].getElementsByTagName("h3")[0].textContent
-    //     let amountString = nextBoxDeals[i].getElementsByClassName("css-51ry97")[0].textContent
-    //     console.log(amountString)
-    //     console.log(priceString)
-
-    //     //add element and code
-    //     let newElement = document.createElement("h3");
-    //     newElement.innerHTML = calculateUnitPrice(priceString, amountString);
-    //     nextBoxDeals[i].getElementsByTagName("h3")[0].appendChild(newElement);
-    // }
-
-    addPricePerUnit("css-orvfwm", "css-13rzl1b", "css-1jiogkd", "h4", "h4")
-
-    addPricePerUnit("css-1swbghd", "css-51ry97", "css-t6djce", "h3", "h3")
+    //Big Deal Cards on /deals
+    addPricePerUnit("css-stah3p", "css-51ry97", "css-a0bgxe", "css-a0bgxe")
 
     fillPriceMap("css-orvfwm", "css-13rzl1b", "css-1jiogkd", "css-1s1lv4r")
-
     console.log(fillPriceMap("css-orvfwm", "css-13rzl1b", "css-1jiogkd", "css-1s1lv4r"))
-        // fillPriceMap("css-1swbghd", "css-51ry97", "css-t6djce", "css-1g1weue")
 
+    fillPriceMap("css-1swbghd", "css-51ry97", "css-t6djce", "css-1g1weue")
     console.log(fillPriceMap("css-1swbghd", "css-51ry97", "css-t6djce", "css-1g1weue"))
 
     determineBoxItemValue();
 }
 
-function addPricePerUnit(parentClass, amountClass, priceClass, newElementTag, newElementPlacementTagName) {
+function addPricePerUnit(parentClass, amountClass, priceClass, newElementPlacementTagName) {
 
     let products = document.getElementsByClassName(parentClass);
     for (let i = 0; i < products.length; i++) {
@@ -67,16 +42,15 @@ function addPricePerUnit(parentClass, amountClass, priceClass, newElementTag, ne
 
             //add element and code
             // let newElement = document.createElement(newElementTag);
-            let newElement = document.createElement("div");
+            let newElement = document.createElement("h1");
 
             //TODO: not working for deals. It calculates it but does not display it
             //TODO: what if NaN or undefined?
             let pricePerLb = "$" + calculateUnitPrice(priceString, amountString) + "/lb"
             console.log("Per $ to Go to price object: " + calculateUnitPrice(priceString, amountString))
             newElement.innerHTML = pricePerLb
-            products[i].appendChild(newElement);
-
-            // products[i].getElementsByTagName(newElementPlacementTagName)[0].appendChild(newElement);
+            newElement.style.color = "blue"
+            products[i].getElementsByClassName(newElementPlacementTagName)[0].appendChild(newElement);
 
 
         }
@@ -105,6 +79,7 @@ function fillPriceMap(parentClass, amountClass, priceClass, nameClass) {
 
 
 //give feedback on if stuff in the box is worth it
+//TODO: when populating list, add "s" to chicken breast, remove "ButcherBox" from burgers, also remove all middle space and trim
 let prices = {
     "Boneless Skinless Breast": 24,
     "Boneless Skinless Breasts": 24,
@@ -128,7 +103,6 @@ let prices = {
     "Baby Back Ribs": 16,
     "Thick Cut Ribeye": 24,
     "Ground Beef Blast": 60,
-    "Boneless Pork Chops": 11,
     "Tenderloin Tips": 16,
     "ButcherBox Burgers": 16,
     "Cold Cracked Lobster": 17,
@@ -140,17 +114,41 @@ let prices = {
     "Wild Alaskan Sockeye Salmon": 25
 }
 
+let nonActivePrices = {
+    "Chuck Roast": 19,
+    "Pork Tenderloin": 13.71
+}
+
+//green means its worth it, red means you can buy it as a deal or an addon, yellow means we have no history on if you can buy it elsewhere for cheaper, and pink means it is better to buy as an add on when it is available
 function determineBoxItemValue() {
+
+    let comparePrice
+        //Determines whether we are paying $149 for 6 items or a better value of $270 for 12 items
+    let checked = document.getElementsByClassName("css-xgsddu")
+    if (checked[0].getElementsByClassName("css-hjiplg")[0].getAttribute("data-name") == "radioSmallChecked") {
+        comparePrice = 22.5
+        console.log("22.5")
+    } else {
+        comparePrice = 24.83
+    }
+
+
     let products = document.getElementsByClassName("css-s66rfc")
     for (let i = 0; i < products.length; i++) {
         let productName = products[i].getElementsByClassName("css-16oe755")[0].textContent
-
-        if (prices[productName] > 22.5) {
+        if (prices[productName] > comparePrice) {
             products[i].style['background-color'] = 'green';
         }
-        if (prices[productName] <= 22.5) {
+        if (prices[productName] <= comparePrice) {
             products[i].style['background-color'] = 'red';
         }
-    }
+        if (prices[productName] == undefined) {
+            if (nonActivePrices[productName] <= comparePrice) {
+                products[i].style['background-color'] = 'pink';
+            } else {
+                products[i].style['background-color'] = 'yellow';
+            }
+        }
 
+    }
 }
