@@ -19,11 +19,15 @@ function gotMessage(message, sender, sendResponse) {
     //Big Deal Cards on /deals
     addPricePerUnit("css-stah3p", "css-51ry97", "css-a0bgxe", "css-a0bgxe")
 
-    fillPriceMap("css-orvfwm", "css-13rzl1b", "css-1jiogkd", "css-1s1lv4r")
-    console.log(fillPriceMap("css-orvfwm", "css-13rzl1b", "css-1jiogkd", "css-1s1lv4r"))
+    // fillPriceMap("css-orvfwm", "css-13rzl1b", "css-1jiogkd", "css-1s1lv4r")
+    // console.log(fillPriceMap("css-orvfwm", "css-13rzl1b", "css-1jiogkd", "css-1s1lv4r"))
 
-    fillPriceMap("css-1swbghd", "css-51ry97", "css-t6djce", "css-1g1weue")
-    console.log(fillPriceMap("css-1swbghd", "css-51ry97", "css-t6djce", "css-1g1weue"))
+    // fillPriceMap("css-1swbghd", "css-51ry97", "css-t6djce", "css-1g1weue")
+    // console.log(fillPriceMap("css-1swbghd", "css-51ry97", "css-t6djce", "css-1g1weue"))
+
+    populateDataTable("css-orvfwm", "css-13rzl1b", "css-1jiogkd", "css-1s1lv4r")
+
+    populateDataTable("css-1swbghd", "css-51ry97", "css-t6djce", "css-1g1weue")
 
     determineBoxItemValue();
 }
@@ -46,35 +50,83 @@ function addPricePerUnit(parentClass, amountClass, priceClass, newElementPlaceme
 
             //TODO: not working for deals. It calculates it but does not display it
             //TODO: what if NaN or undefined?
-            let pricePerLb = "$" + calculateUnitPrice(priceString, amountString) + "/lb"
+            // let pricePerLb = "$" + calculateUnitPrice(priceString, amountString) + "/lb"
+            // console.log("Per $ to Go to price object: " + calculateUnitPrice(priceString, amountString))
+            // newElement.innerHTML = pricePerLb
+            // newElement.style.color = "blue"
+            // products[i].getElementsByClassName(newElementPlacementTagName)[0].appendChild(newElement);
+
+
+            let newElement1 = document.createElement("h1");
+
+            //TODO: not working for deals. It calculates it but does not display it
+            //TODO: what if NaN or undefined?
+            let pricePerLb1 = "$" + calculateUnitPrice(priceString, amountString) + "/lb"
             console.log("Per $ to Go to price object: " + calculateUnitPrice(priceString, amountString))
-            newElement.innerHTML = pricePerLb
-            newElement.style.color = "blue"
-            products[i].getElementsByClassName(newElementPlacementTagName)[0].appendChild(newElement);
+            newElement1.innerHTML = pricePerLb1
+            newElement1.className = priceClass
+            newElement1.style.color = "green"
+            products[i].appendChild(newElement1);
 
 
         }
     }
 }
 
-function fillPriceMap(parentClass, amountClass, priceClass, nameClass) {
-    //repeat of first half of addPriceperUnit
-    let priceMap = {}
+//TODO: this can perhaps be deleted, it has been modified for use in populating the database via the scraper
+// function fillPriceMap(parentClass, amountClass, priceClass, nameClass) {
+//     //repeats of first half of addPriceperUnit
+//     let priceMap = {}
+//     let products = document.getElementsByClassName(parentClass);
+//     for (let i = 0; i < products.length; i++) {
+//         if (products[i].getElementsByClassName(nameClass).length > 0 && products[i].getElementsByClassName(priceClass).length > 0) {
+
+//             let productName = products[i].getElementsByClassName(nameClass)[0].textContent;
+//             let amountString = products[i].getElementsByClassName(amountClass)[0].textContent;
+//             let priceString = products[i].getElementsByClassName(priceClass)[0].textContent;
+//             console.log("productName: " + productName)
+//             console.log("priceString: " + priceString)
+//             console.log(i)
+
+//             priceMap[productName] = Number(calculatePrice(priceString))
+//         }
+//     }
+//     return priceMap
+// }
+
+
+function populateDataTable(parentClass, amountClass, priceClass, nameClass) {
+    //repeats of first half of addPriceperUnit
+    let allProductInfo = []
+    let productInfo
+    console.log("Start of PopulateDataTable")
+
     let products = document.getElementsByClassName(parentClass);
     for (let i = 0; i < products.length; i++) {
         if (products[i].getElementsByClassName(nameClass).length > 0 && products[i].getElementsByClassName(priceClass).length > 0) {
 
+            productInfo = {}
             let productName = products[i].getElementsByClassName(nameClass)[0].textContent;
-            let amountString = products[i].getElementsByClassName(amountClass)[0].textContent;
+            // let amountString = products[i].getElementsByClassName(amountClass)[0].textContent;
             let priceString = products[i].getElementsByClassName(priceClass)[0].textContent;
-            console.log("productName: " + productName)
-            console.log("priceString: " + priceString)
-            console.log(i)
+            // console.log("productName: " + productName)
+            // console.log("priceString: " + priceString)
 
-            priceMap[productName] = Number(calculatePrice(priceString))
+            productInfo["name"] = productName
+            productInfo["priceString"] = priceString
+            productInfo["fullPrice"] = calculatePrice(priceString)
+            productInfo["amountString"] = amountString
+            productInfo.weight = calculateAmount(amountString).weight
+            productInfo.weightType = calculateAmount(amountString).weightType
+            productInfo.dateAdded = new Date().toISOString().slice(0, 10)
+
+            console.log(productInfo)
+
+
+            allProductInfo.push(productInfo)
         }
     }
-    return priceMap
+    return allProductInfo
 }
 
 
