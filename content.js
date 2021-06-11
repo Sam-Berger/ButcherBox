@@ -62,7 +62,7 @@ function addPricePerUnit(parentClass, amountClass, priceClass, newElementPlaceme
             //TODO: not working for deals. It calculates it but does not display it
             //TODO: what if NaN or undefined?
             let pricePerLb1 = "$" + calculateUnitPrice(priceString, amountString) + "/lb"
-            console.log("Per $ to Go to price object: " + calculateUnitPrice(priceString, amountString))
+                // console.log("Per $ to Go to price object: " + calculateUnitPrice(priceString, amountString))
             newElement1.innerHTML = pricePerLb1
             newElement1.className = priceClass
             newElement1.style.color = "green"
@@ -107,10 +107,8 @@ function populateDataTable(parentClass, amountClass, priceClass, nameClass) {
 
             productInfo = {}
             let productName = products[i].getElementsByClassName(nameClass)[0].textContent;
-            // let amountString = products[i].getElementsByClassName(amountClass)[0].textContent;
+            let amountString = products[i].getElementsByClassName(amountClass)[0].textContent;
             let priceString = products[i].getElementsByClassName(priceClass)[0].textContent;
-            // console.log("productName: " + productName)
-            // console.log("priceString: " + priceString)
 
             productInfo["name"] = productName
             productInfo["priceString"] = priceString
@@ -121,11 +119,10 @@ function populateDataTable(parentClass, amountClass, priceClass, nameClass) {
             productInfo.dateAdded = new Date().toISOString().slice(0, 10)
 
             console.log(productInfo)
-
-
             allProductInfo.push(productInfo)
         }
     }
+    console.log(allProductInfo)
     return allProductInfo
 }
 
@@ -179,7 +176,6 @@ function determineBoxItemValue() {
     let checked = document.getElementsByClassName("css-xgsddu")
     if (checked[0].getElementsByClassName("css-hjiplg")[0].getAttribute("data-name") == "radioSmallChecked") {
         comparePrice = 22.5
-        console.log("22.5")
     } else {
         comparePrice = 24.83
     }
