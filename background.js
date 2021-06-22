@@ -17,42 +17,34 @@ firebase.initializeApp(firebaseConfig);
 let database = firebase.database()
 let ref = database.ref('products')
 
-let outsideDataArray = []
+// let outsideDataArray = []
 let activePriceObject = {}
 let inActivePriceObject = {}
 ref.on('value', (snapshot) => {
     outsideData = snapshot.val()
-        //this just pushes out everything, but what if we want to selectively push out data for use in comparison later? Lets create 2 objects with names and pricesm one for active: true, and one for active: false 
-        //be ready to remove this
-    outsideDataArray.push(outsideData)
-        //remove above
 
     for (let key in outsideData) {
-        // console.log("outside.key")
-        // console.log(outsideData[key].active)
-
         if (outsideData[key].active) {
-            activePriceObject[outsideData[key].name] = outsideData[key].fullPrice
+            // activePriceObject[outsideData[key].noWhiteSpaceName] = outsideData[key].fullPrice
+
+            activePriceObject[outsideData[key].noWhiteSpaceName] = {
+                fullPrice: outsideData[key].fullPrice,
+                weight: outsideData[key].weight,
+                weightType: outsideData[key].weightType
+            }
         } else {
-            inActivePriceObject[outsideData[key].name] = outsideData[key].fullPrice
-
+            inActivePriceObject[outsideData[key].noWhiteSpaceName] = {
+                fullPrice: outsideData[key].fullPrice,
+                weight: outsideData[key].weight,
+                weightType: outsideData[key].weightType
+            }
         }
-
     }
-
 })
-console.log("active")
+
+console.log("end")
 console.log(activePriceObject)
-console.log("inactive")
-console.log(inActivePriceObject)
-
-// console.log("outsidedataArray")
-// console.log(outsideDataArray)
-// console.log("array 0")
-// console.log(outsideDataArray[0])
-
-
-// Add a listener for the browser action
+    // Add a listener for the browser action
 chrome.browserAction.onClicked.addListener(buttonClicked);
 
 function buttonClicked(tab) {
@@ -60,8 +52,6 @@ function buttonClicked(tab) {
         active: activePriceObject,
         inactive: inActivePriceObject
     }
-
-    // chrome.tabs.sendMessage(tab.id, outsideDataArray[0]);
     chrome.tabs.sendMessage(tab.id, messageObj);
 
 
