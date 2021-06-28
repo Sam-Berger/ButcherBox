@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "ButcherBox Price Comparison",
-    "version": "0.9",
+    "version": "0.1",
     "content_scripts": [{
         "matches": [
             "https://www.butcherbox.com/*"
@@ -9,6 +9,9 @@
         "css": ["styles.css"],
         "js": ["calculations.js", "content.js"]
     }],
+    "icons": {
+        "48": "icon48.png"
+    },
     "permissions": [
         "activeTab",
         "tabs",
