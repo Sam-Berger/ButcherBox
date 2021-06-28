@@ -1,0 +1,59 @@
+/* basic positioning */
+
+.explanation {
+    text-align: center;
+    background-color: white;
+    font-family: Gotham;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
+.legend {
+    list-style: none;
+    display: flex;
+    text-align: center;
+    position: sticky;
+    top: 4.5em;
+    border-bottom: 1px solid rgb(219, 218, 216);
+    z-index: 1100;
+    background-color: white;
+}
+
+.legend li {
+    float: left;
+    margin-right: 20px;
+    text-align: left;
+    font-family: Gotham;
+    font-size: .875rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+    width: 100%;
+}
+
+.legend span {
+    border: 1px solid black;
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin: 2px;
+}
+
+
+/* your colors */
+
+.worthIt {
+    background-color: #238823;
+}
+
+.unknown {
+    background-color: #FFBF00;
+}
+
+.notWorthIt {
+    background-color: #D2222D;
+}
+
+.onlyChoice {
+    background-color: #EDA7AB;
+}
