@@ -1,7 +1,3 @@
-console.log("background running")
-
-// const firebase = require("firebase")
-
 const firebaseConfig = {
     apiKey: "AIzaSyBPsxe57TCAqmhOAK95i_F3t0YkhyPXitQ",
     authDomain: "butcherbox-scraper.firebaseapp.com",
@@ -17,7 +13,6 @@ firebase.initializeApp(firebaseConfig);
 let database = firebase.database()
 let ref = database.ref('products')
 
-// let outsideDataArray = []
 let activePriceObject = {}
 let inActivePriceObject = {}
 ref.on('value', (snapshot) => {
@@ -25,7 +20,6 @@ ref.on('value', (snapshot) => {
 
     for (let key in outsideData) {
         if (outsideData[key].active) {
-            // activePriceObject[outsideData[key].noWhiteSpaceName] = outsideData[key].fullPrice
 
             activePriceObject[outsideData[key].noWhiteSpaceName] = {
                 fullPrice: outsideData[key].fullPrice,
@@ -42,9 +36,8 @@ ref.on('value', (snapshot) => {
     }
 })
 
-console.log("end")
-console.log(activePriceObject)
-    // Add a listener for the browser action
+
+// Add a listener for the browser action
 chrome.browserAction.onClicked.addListener(buttonClicked);
 
 function buttonClicked(tab) {
