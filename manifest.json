@@ -4,8 +4,9 @@
     "version": "0.9",
     "content_scripts": [{
         "matches": [
-            "<all_urls>"
+            "https://www.butcherbox.com/*"
         ],
+        "css": ["styles.css"],
         "js": ["calculations.js", "content.js"]
     }],
     "permissions": [
