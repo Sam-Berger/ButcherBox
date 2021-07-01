@@ -12,11 +12,6 @@
     "icons": {
         "48": "icon48.png"
     },
-    "permissions": [
-        "activeTab",
-        "tabs",
-        "identity"
-    ],
     "background": {
         "page": "background.html"
     },
